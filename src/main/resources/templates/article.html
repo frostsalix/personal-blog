@@ -12,7 +12,7 @@
     <main class="container article-detail">
         <h1 th:text="${article.title}">Article Title</h1>
         <time th:text="${article.publishedAt}" class="date">2026-01-01</time>
-        <div class="content" th:utext="${article.content}">
+        <div class="content" th:utext="${#blog.markdownToHtml(article.content)}">
             Article content here.
         </div>
         <a th:href="@{/}" class="back-link">← Back to Home</a>
