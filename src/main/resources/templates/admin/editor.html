@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${isNew} ? 'New Article' : 'Edit Article'">Editor</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/admin-header :: adminHeader}"></div>
+
+    <main class="admin-main">
+        <h1 th:text="${isNew} ? 'New Article' : 'Edit Article'">Editor</h1>
+
+        <form method="post"
+              th:action="${isNew} ? @{/admin/posts/new} : @{/admin/posts/{slug}/edit(slug=${article.slug})}"
+              class="editor-form">
+            <label>
+                Title
+                <input type="text" name="title" required
+                       th:value="${article != null ? article.title : ''}">
+            </label>
+            <label>
+                Content (HTML)
+                <textarea name="content" rows="20" required
+                          th:text="${article != null ? article.content : ''}"></textarea>
+            </label>
+            <label>
+                Status
+                <select name="status">
+                    <option value="draft" th:selected="${article != null && article.status == 'draft'}">Draft</option>
+                    <option value="published" th:selected="${article != null && article.status == 'published'}">Published</option>
+                </select>
+            </label>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary" th:text="${isNew} ? 'Publish' : 'Save Changes'">Save</button>
+                <a th:href="@{/admin}" class="btn">Cancel</a>
+            </div>
+        </form>
+    </main>
+</body>
+</html>

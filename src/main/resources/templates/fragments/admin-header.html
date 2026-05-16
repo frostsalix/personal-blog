@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <header th:fragment="adminHeader" class="site-header admin-header">
+        <div class="container">
+            <a th:href="@{/admin}" class="site-title">Admin Panel</a>
+            <nav>
+                <a th:href="@{/}">View Blog</a>
+                <a th:href="@{/admin/logout}">Logout</a>
+            </nav>
+        </div>
+    </header>
+</body>
+</html>

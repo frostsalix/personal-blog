@@ -1,0 +1,8 @@
+{
+  "slug" : "hello-world",
+  "title" : "Hello World",
+  "content" : "<p>Welcome to my blog! This is the first post.</p><p>This blog is built with Spring Boot and Thymeleaf, using JSON files for storage.</p>",
+  "publishedAt" : "2026-05-16",
+  "updatedAt" : "2026-05-16",
+  "status" : "published"
+}

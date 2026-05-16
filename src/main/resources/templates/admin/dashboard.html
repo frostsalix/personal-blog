@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Admin</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div th:replace="~{fragments/admin-header :: adminHeader}"></div>
+
+    <main class="admin-main">
+        <div class="admin-toolbar">
+            <h1>Dashboard</h1>
+            <a th:href="@{/admin/posts/new}" class="btn btn-primary">+ New Article</a>
+        </div>
+
+        <div th:if="${success}" class="alert alert-success" th:text="${success}">Success</div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}">Error</div>
+
+        <div th:if="${articles.isEmpty()}">
+            <p class="empty-state">No articles yet. Create your first post!</p>
+        </div>
+
+        <table th:if="${!articles.isEmpty()}" class="article-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="article : ${articles}">
+                    <td th:text="${article.title}">Title</td>
+                    <td>
+                        <span class="badge" th:classappend="${article.status == 'published'} ? 'badge-published' : 'badge-draft'"
+                              th:text="${article.status}">status</span>
+                    </td>
+                    <td th:text="${article.publishedAt}">2026-01-01</td>
+                    <td class="actions">
+                        <a th:href="@{/admin/posts/{slug}/edit(slug=${article.slug})}" class="btn btn-sm">Edit</a>
+                        <form method="post" th:action="@{/admin/posts/{slug}/delete(slug=${article.slug})}" class="inline-form"
+                              onsubmit="return confirm('Delete this article?')">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
