@@ -12,6 +12,9 @@
     <main class="admin-main">
         <h1 th:text="${isNew} ? 'New Article' : 'Edit Article'">Editor</h1>
 
+        <div th:if="${success}" class="alert alert-success" th:text="${success}">Success</div>
+        <div th:if="${error}" class="alert alert-error" th:text="${error}">Error</div>
+
         <form method="post"
               th:action="${isNew} ? @{/admin/posts/new} : @{/admin/posts/{slug}/edit(slug=${article.slug})}"
               class="editor-form">

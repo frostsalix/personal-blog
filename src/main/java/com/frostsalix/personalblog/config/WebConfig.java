@@ -1,5 +1,6 @@
 package com.frostsalix.personalblog.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,5 +19,10 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/login");
+    }
+
+    @Bean
+    public BlogDialect blogDialect() {
+        return new BlogDialect();
     }
 }
