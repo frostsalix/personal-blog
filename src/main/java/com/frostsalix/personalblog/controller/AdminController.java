@@ -1,6 +1,7 @@
 package com.frostsalix.personalblog.controller;
 
 import com.frostsalix.personalblog.service.ArticleService;
+import com.frostsalix.personalblog.model.Article;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -69,14 +70,22 @@ public class AdminController {
     public String createArticle(@RequestParam String title,
                                 @RequestParam String content,
                                 @RequestParam(defaultValue = "draft") String status,
+                                Model model,
                                 RedirectAttributes redirectAttributes) {
         try {
             var article = articleService.createArticle(title, content, status);
             redirectAttributes.addFlashAttribute("success", "Article created: " + article.getTitle());
+            return "redirect:/admin";
         } catch (IllegalArgumentException e) {
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("isNew", true);
+            Article formData = new Article();
+            formData.setTitle(title);
+            formData.setContent(content);
+            formData.setStatus(status);
+            model.addAttribute("article", formData);
+            return "admin/editor";
         }
-        return "redirect:/admin";
     }
 
     @GetMapping("/posts/{slug}/edit")
@@ -91,14 +100,26 @@ public class AdminController {
                                 @RequestParam String title,
                                 @RequestParam String content,
                                 @RequestParam(defaultValue = "draft") String status,
+                                Model model,
                                 RedirectAttributes redirectAttributes) {
         try {
             articleService.updateArticle(slug, title, content, status);
             redirectAttributes.addFlashAttribute("success", "Article updated: " + title);
+            return "redirect:/admin";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("isNew", false);
+            Article formData = new Article();
+            formData.setSlug(slug);
+            formData.setTitle(title);
+            formData.setContent(content);
+            formData.setStatus(status);
+            model.addAttribute("article", formData);
+            return "admin/editor";
         } catch (RuntimeException e) {
             redirectAttributes.addFlashAttribute("error", e.getMessage());
+            return "redirect:/admin";
         }
-        return "redirect:/admin";
     }
 
     @PostMapping("/posts/{slug}/delete")

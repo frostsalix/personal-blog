@@ -55,6 +55,12 @@ public class ArticleService {
     }
 
     public Article updateArticle(String slug, String title, String content, String status) {
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("Title is required");
+        }
+        if (content == null || content.isBlank()) {
+            throw new IllegalArgumentException("Content is required");
+        }
         Article article = getArticle(slug);
         article.setTitle(title.trim());
         article.setContent(content.trim());

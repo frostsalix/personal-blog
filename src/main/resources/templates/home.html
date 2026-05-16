@@ -21,7 +21,7 @@
                 <a th:href="@{/posts/{slug}(slug=${article.slug})}" th:text="${article.title}">Article Title</a>
             </h2>
             <time th:text="${article.publishedAt}" class="date">2026-01-01</time>
-            <p class="excerpt" th:text="${#strings.abbreviate(article.content, 200)}">Excerpt...</p>
+            <p class="excerpt" th:text="${#blog.excerpt(article.content, 200)}">Excerpt...</p>
             <a th:href="@{/posts/{slug}(slug=${article.slug})}" class="read-more">Read more →</a>
         </div>
     </main>
