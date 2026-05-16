@@ -1,5 +1,8 @@
 package com.frostsalix.personalblog.config;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.thymeleaf.context.IExpressionContext;
 import org.thymeleaf.dialect.AbstractDialect;
 import org.thymeleaf.dialect.IExpressionObjectDialect;
@@ -45,12 +48,22 @@ public class BlogDialect extends AbstractDialect implements IExpressionObjectDia
     }
 
     public static class BlogUtils {
+        private static final Parser MARKDOWN_PARSER = Parser.builder().build();
+        private static final HtmlRenderer HTML_RENDERER = HtmlRenderer.builder().build();
+
+        public String markdownToHtml(String markdown) {
+            if (markdown == null) return "";
+            Node document = MARKDOWN_PARSER.parse(markdown);
+            return HTML_RENDERER.render(document);
+        }
+
         public String stripHtml(String html) {
             if (html == null) return "";
             return html.replaceAll("<[^>]+>", "");
         }
 
-        public String excerpt(String html, int maxLength) {
+        public String excerpt(String markdown, int maxLength) {
+            String html = markdownToHtml(markdown);
             String plain = stripHtml(html);
             if (plain.length() <= maxLength) return plain;
             int cutoff = plain.lastIndexOf(' ', maxLength);
