@@ -26,6 +26,7 @@
             <thead>
                 <tr>
                     <th>Title</th>
+                    <th>Excerpt</th>
                     <th>Status</th>
                     <th>Date</th>
                     <th>Actions</th>
@@ -33,7 +34,10 @@
             </thead>
             <tbody>
                 <tr th:each="article : ${articles}">
-                    <td th:text="${article.title}">Title</td>
+                    <td>
+                        <a th:href="@{/posts/{slug}(slug=${article.slug})}" th:text="${article.title}">Title</a>
+                    </td>
+                    <td class="excerpt-cell" th:text="${#blog.excerpt(article.content, 100)}">Excerpt</td>
                     <td>
                         <span class="badge" th:classappend="${article.status == 'published'} ? 'badge-published' : 'badge-draft'"
                               th:text="${article.status}">status</span>

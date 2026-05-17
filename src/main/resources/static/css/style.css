@@ -286,6 +286,15 @@ a:hover {
     gap: 0.5rem;
 }
 
+.article-table .excerpt-cell {
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #888;
+    font-size: 0.85rem;
+}
+
 /* === Badges === */
 .badge {
     display: inline-block;
